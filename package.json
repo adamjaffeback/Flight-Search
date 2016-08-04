@@ -11,7 +11,16 @@
     "debug": "~2.1.1",
     "express": "~4.12.2",
     "jade": "~1.9.2",
+    "jquery-ui": "^1.12.0",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-express": "^1.4.1",
+    "grunt-open": "^0.2.3",
+    "matchdep": "^1.0.1"
   }
 }
