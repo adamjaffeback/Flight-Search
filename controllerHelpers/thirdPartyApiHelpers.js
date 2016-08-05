@@ -1,7 +1,7 @@
 var request = require( 'request' );
 var Q = require( 'q' );
 
-exports.callFlightApi = function( endpoint ) {
+var callFlightApi = function( endpoint ) {
   var deferred = Q.defer();
 
   var url = 'http://node.locomote.com/code-task/' + endpoint;
@@ -15,4 +15,12 @@ exports.callFlightApi = function( endpoint ) {
   });
 
   return deferred.promise;
+};
+
+exports.getAirlines = function() {
+  return callFlightApi( 'airlines' );
+};
+
+exports.getAirports = function( querystring ) {
+  return callFlightApi( querystring );
 };

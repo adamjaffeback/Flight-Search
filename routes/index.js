@@ -9,12 +9,12 @@ router.get('/', function(req, res, next) {
 
 router.get('/airlines', function( req, res ) {
   // Lists all available airlines from the Flight API.
-  thirdPartyHelpers.callFlightApi( 'airlines' )
+  thirdPartyHelpers.getAirlines()
   .then(function( airlines ) {
     res.send( airlines );
   })
   .catch(function( error ) {
-    res.status( 500 ).send( error );
+    next( error );
   });
 });
 
@@ -22,17 +22,19 @@ router.get('/airports', function( req, res, next ) {
   // Lists all matching airports from the Flight API.
 
   if ( Object.keys( req.query ).length ) {
-    next();
+    next( 'route' );
   } else {
-    res.status( 409 ).send( 'Please provide a city to search by as a querystring.' );
+    var err = new Error( 'Please provide a city to search by as a querystring.' );
+    err.status = 409;
+    next( err );
   }
  }, function( req, res ) {
-  thirdPartyHelpers.callFlightApi( req.originalUrl )
+  thirdPartyHelpers.getAirports( req.originalUrl )
   .then(function( airports ) {
     res.send( airports );
   })
   .catch(function( error ) {
-    res.status( 500 ).send( error );
+    next( error );
   });
  });
 
