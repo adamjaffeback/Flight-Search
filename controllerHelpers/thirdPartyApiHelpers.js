@@ -1,5 +1,6 @@
 var request = require( 'request' );
 var Q = require( 'q' );
+var cache = require( './caches.js' );
 
 var callFlightApi = function( endpoint ) {
   var deferred = Q.defer();
@@ -21,6 +22,15 @@ exports.getAirlines = function() {
   return callFlightApi( 'airlines' );
 };
 
-exports.getAirports = function( querystring ) {
-  return callFlightApi( querystring );
+exports.getAirports = function( request ) {
+  // if we already have the airports cached
+  if ( cache.airports.hasOwnProperty( request.query.q ) ) {
+    return Q( cache.airports[ request.query.q ] );
+  } else {
+    return callFlightApi( request.originalUrl )
+    .then(function( airports ) {
+      cache.airports[ request.query.q ] = airports;
+      return airports;
+    });
+  }
 };
