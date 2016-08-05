@@ -14,19 +14,26 @@ router.get('/airlines', function( req, res ) {
     res.send( airlines );
   })
   .catch(function( error ) {
-    res.statusCode( 500 ).send( error );
+    res.status( 500 ).send( error );
   });
 });
 
-// router.get('/airports', function( req, res ) {
-//   // Lists all matching airports from the Flight API.
-//   thirdPartyHelpers.callFlightApi( 'airports' )
-//   .then(function( airports ) {
-//     res.send( airports );
-//   })
-//   .catch(function( error ) {
-//     res.statusCode( 500 ).send( error );
-//   });
-// });
+router.get('/airports', function( req, res, next ) {
+  // Lists all matching airports from the Flight API.
+
+  if ( Object.keys( req.query ).length ) {
+    next();
+  } else {
+    res.status( 409 ).send( 'Please provide a city to search by as a querystring.' );
+  }
+ }, function( req, res ) {
+  thirdPartyHelpers.callFlightApi( req.originalUrl )
+  .then(function( airports ) {
+    res.send( airports );
+  })
+  .catch(function( error ) {
+    res.status( 500 ).send( error );
+  });
+ });
 
 module.exports = router;
