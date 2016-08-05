@@ -1,6 +1,11 @@
 var $ = require( 'jquery' );
-require( 'jquery-ui' );
+var Pikaday = require( 'pikaday' );
 
 $( document ).ready(function() {
-  $( '#departureDate' ).datepicker();
+  var options = {
+    field: $( '#departureDate' )[ 0 ],
+    format: 'D MMM YYYY'
+  };
+
+  var picker = new Pikaday( options );
 });
