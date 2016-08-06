@@ -48,7 +48,7 @@ router.get('/search', function( req, res, next ) {
     next( err );
   }
  }, function( req, res ) {
-  thirdPartyHelpers.searchForFlight( req.query.to, req.query.from, req.query.date )
+  thirdPartyHelpers.searchForFlight( req.query.from, req.query.to, req.query.date )
   .then(function( matchingFlights ) {
     res.send( matchingFlights );
   })

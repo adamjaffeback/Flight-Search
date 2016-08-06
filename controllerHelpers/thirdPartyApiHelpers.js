@@ -18,6 +18,10 @@ var callFlightApi = function( endpoint ) {
   return deferred.promise;
 };
 
+var createFlightSearchUrl = function( airlineCode, from, to, date ) {
+  return 'flight_search/' + airlineCode + '?date=' + date + '&from=' + from + '&to=' + to;
+};
+
 exports.getAirlines = function() {
   return callFlightApi( 'airlines' );
 };
@@ -33,4 +37,22 @@ exports.getAirports = function( request ) {
       return airports;
     });
   }
+};
+
+exports.searchForFlight = function( from, to, date ) {
+  return exports.getAirlines()
+  .then(function( airlines ) {
+    airlines = JSON.parse( airlines );
+    // for each airline, make request for dates
+    var requests = [];
+
+    var numberOfAirlines = airlines.length;
+    for ( var i = 0; i < numberOfAirlines; i++ ) {
+      var airline = airlines[ i ];
+      var url = createFlightSearchUrl( airline.code, from, to, date );
+      requests.push( callFlightApi( url ) );
+    }
+
+    return Q.all( requests );
+  });
 };
