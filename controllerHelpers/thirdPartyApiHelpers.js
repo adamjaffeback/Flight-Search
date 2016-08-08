@@ -1,6 +1,8 @@
 var request = require( 'request' );
 var Q = require( 'q' );
 var cache = require( './caches.js' );
+var moment = require( 'moment' );
+moment().format();
 
 var callFlightApi = function( endpoint ) {
   var deferred = Q.defer();
@@ -20,6 +22,48 @@ var callFlightApi = function( endpoint ) {
 
 var createFlightSearchUrl = function( airlineCode, from, to, date ) {
   return 'flight_search/' + airlineCode + '?date=' + date + '&from=' + from + '&to=' + to;
+};
+
+var makeFlexibleDates = function( startDate ) {
+  var date = moment( startDate, 'YYYY-MM-DD' );
+  var flexibleDates = [ date.format( 'YYYY-MM-DD' ) ];
+  // -1
+  flexibleDates.unshift( date.clone().subtract( 1, 'days' ).format( 'YYYY-MM-DD' ) );
+  // -2
+  flexibleDates.unshift( date.clone().subtract( 2, 'days' ).format( 'YYYY-MM-DD' ) );
+  // +1
+  flexibleDates.push( date.clone().add( 1, 'days' ).format( 'YYYY-MM-DD' ) );
+  // +2
+  flexibleDates.push( date.clone().add( 2, 'days' ).format( 'YYYY-MM-DD' ) );
+
+  return flexibleDates;
+};
+
+var makeAllSearchUrls = function( airlines, from, to, startDate ) {
+  var dates = makeFlexibleDates( startDate );
+  var searchUrls = [];
+
+  var numberOfAirlines = airlines.length;
+  for ( var i = 0; i < numberOfAirlines; i++ ) {
+    var airlineCode = airlines[ i ].code;
+    // -2 from date
+    var url = createFlightSearchUrl( airlineCode, from, to, dates[ 0 ] );
+    searchUrls.push( url );
+    // -1 from date
+    url = createFlightSearchUrl( airlineCode, from, to, dates[ 1 ] );
+    searchUrls.push( url );
+    // 0 (actual start date)
+    url = createFlightSearchUrl( airlineCode, from, to, dates[ 2 ] );
+    searchUrls.push( url );
+    // +1 from date
+    url = createFlightSearchUrl( airlineCode, from, to, dates[ 3 ] );
+    searchUrls.push( url );
+    // +2 from date
+    url = createFlightSearchUrl( airlineCode, from, to, dates[ 4 ] );
+    searchUrls.push( url );
+  }
+
+  return searchUrls;
 };
 
 exports.getAirlines = function() {
@@ -45,12 +89,11 @@ exports.searchForFlight = function( from, to, date ) {
     airlines = JSON.parse( airlines );
     // for each airline, make request for dates
     var requests = [];
+    var searchUrls = makeAllSearchUrls( airlines, from, to, date );
 
-    var numberOfAirlines = airlines.length;
-    for ( var i = 0; i < numberOfAirlines; i++ ) {
-      var airline = airlines[ i ];
-      var url = createFlightSearchUrl( airline.code, from, to, date );
-      requests.push( callFlightApi( url ) );
+    var numberOfSearchUrls = searchUrls.length;
+    for ( var i = 0; i < numberOfSearchUrls; i++ ) {
+      requests.push( callFlightApi( searchUrls[ i ] ) );
     }
 
     return Q.all( requests );
