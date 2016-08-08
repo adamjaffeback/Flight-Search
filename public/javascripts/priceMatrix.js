@@ -2,11 +2,12 @@ var moment = require( 'moment' );
 var $ = require( 'jquery' );
 
 var addPrice = function( airlineCode, price ) {
-  $( '#' + airlineCode ).append( '<td>$' + price + '</td>' );
+  $( '#' + airlineCode ).append( '<td class="price">$' + price + '</td>' );
 };
 
 var newAirlineRow = function( airlineName, airlineCode ) {
-  $( '#priceMatrix' ).append( $( '<tr></tr>', { id: airlineCode } ) ).append( '<td>' + airlineName + '</td>' );
+  var newRow = $( '<tr></tr>', { id: airlineCode } ).append( '<td class="airline">' + airlineName + '</td>' );
+  $( '#priceMatrix' ).append( newRow );
 };
 
 var addHeader = function( date ) {
@@ -51,5 +52,15 @@ exports.createMatrix = function( flightOptions ) {
       newAirlineRow( currentAirlines.name, currentAirlines.code );
     }
 
-  }
+    var cheapestFlight = { price: window.Infinity };
+    var numberOfFlights = carrierFlightsForDay.length;
+    for ( var j = 0; j < numberOfFlights; j++ ) {
+      var flight = carrierFlightsForDay[ j ];
+      if ( flight.price < cheapestFlight.price ) {
+        cheapestFlight = flight;
+      }
+    }
+
+    addPrice( currentAirlines.code, cheapestFlight.price );
+  };
 };

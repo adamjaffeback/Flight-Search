@@ -16,18 +16,18 @@ $( document ).ready(function() {
   // intercept submit
   $( "#searchForm" ).submit(function( event ) {
     event.preventDefault();
-    $( '#priceMatrix' ).empty();
-
-    priceMatrix.createDateHeaders();
 
     $.ajax({
       url: 'search?' + $( '#searchForm' ).serialize(),
       type: 'get',
       dataType: 'json',
       success: function( data ) {
-
+        priceMatrix.createDateHeaders();
         priceMatrix.createMatrix( data );
       }
     });
+
+    $( 'body' ).css( 'justify-content', 'flex-start' );
+
   });
 });

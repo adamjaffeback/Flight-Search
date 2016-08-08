@@ -21,3 +21,29 @@ body {
 #searchForm {
   display: flex;
 }
+
+#searchResults {
+  margin-top: 1em;
+}
+
+.airline {
+  font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+  line-height: 2em;
+}
+
+.price {
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+tr:nth-child( even ) {
+  background-color: white;
+}
