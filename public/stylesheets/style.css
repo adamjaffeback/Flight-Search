@@ -52,13 +52,6 @@ tr:nth-child( even ) {
   background-color: white;
 }
 
-#cheapestFlight, #flights {
-  display: flex;
-  flex-grow: 1;
-  width: 100%;
-  flex-direction: column;
-}
-
 .flight {
   display: flex;
   border: 1px solid black;
@@ -75,12 +68,12 @@ tr:nth-child( even ) {
   justify-content: center;
 }
 
-div.price {
+span.price {
   font-size: 2em;
   font-weight: bold;
 }
 
-div.airline {
+span.airline {
   font-weight: normal;
 }
 

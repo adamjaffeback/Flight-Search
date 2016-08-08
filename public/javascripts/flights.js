@@ -14,15 +14,15 @@ exports.addFlight = function( targetSelector, flight ) {
   //   </div>
   // </div>
 
-  var flightEl = $( '<div></div>', { class: 'flight' } );
-  var newEl = $( '<div class="price">$' + flight.price.toFixed( 0 ) +  '</div>' );
+  var flightEl = $( '<p></p>', { class: 'flight' } );
+  var newEl = $( '<span class="price">$' + flight.price.toFixed( 0 ) +  '</span>' );
   flightEl.append( newEl );
-  newEl = $( '<div class="airline">' + flight.airline.name +  '</div>' );
+  newEl = $( '<span class="airline">' + flight.airline.name +  '</span>' );
   flightEl.append( newEl );
-  newEl = $( '<div></div>', { class: 'flightInfo' } );
-  newEl.append( $( '<div class="flightNumber">' +  flight.airline.code + ' ' + flight.flightNum + '</div>' ) );
-  newEl.append( $( '<div class="flightTimes">' + moment( flight.start.dateTime ).format( 'h:mm a' ) + ' -> ' + moment( flight.finish.dateTime ).format( 'h:mm a' ) + '</div>' ) );
-  newEl.append( $( '<div class="flightDuration">' + flight.durationMin + ' mins</div>' ) );
+  newEl = $( '<span></span>', { class: 'flightInfo' } );
+  newEl.append( $( '<span class="flightNumber">' +  flight.airline.code + ' ' + flight.flightNum + '</span>' ) );
+  newEl.append( $( '<span class="flightTimes">' + moment( flight.start.dateTime ).format( 'h:mm a' ) + ' -> ' + moment( flight.finish.dateTime ).format( 'h:mm a' ) + '</span>' ) );
+  newEl.append( $( '<span class="flightDuration">' + flight.durationMin + ' mins</span>' ) );
   flightEl.append( newEl );
 
   $( targetSelector ).append( flightEl );
