@@ -61,6 +61,6 @@ exports.createMatrix = function( flightOptions ) {
       }
     }
 
-    addPrice( currentAirlines.code, cheapestFlight.price );
+    addPrice( currentAirlines.code, cheapestFlight.price.toFixed( 0 ) );
   };
 };
