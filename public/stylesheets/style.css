@@ -52,7 +52,7 @@ tr:nth-child( even ) {
   background-color: white;
 }
 
-#flights {
+#cheapestFlight, #flights {
   display: flex;
   flex-grow: 1;
   width: 100%;
