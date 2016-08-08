@@ -1,5 +1,6 @@
 var moment = require( 'moment' );
 var $ = require( 'jquery' );
+var flightHelper = require( './flights.js' );
 
 var addPrice = function( airlineCode, price ) {
   $( '#' + airlineCode ).append( '<td class="price">$' + price + '</td>' );
@@ -59,6 +60,8 @@ exports.createMatrix = function( flightOptions ) {
       if ( flight.price < cheapestFlight.price ) {
         cheapestFlight = flight;
       }
+
+      flightHelper.addFlight( '#flights', flight );
     }
 
     addPrice( currentAirlines.code, cheapestFlight.price.toFixed( 0 ) );
