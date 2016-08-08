@@ -24,6 +24,8 @@ body {
 
 #searchResults {
   margin-top: 1em;
+  display: flex;
+  flex-direction: column;
 }
 
 .airline {
@@ -32,6 +34,8 @@ body {
 
 table {
   border-collapse: collapse;
+  margin-bottom: 1em;
+  flex-basis: 60%;
 }
 
 th, td {
@@ -39,11 +43,47 @@ th, td {
   line-height: 2em;
 }
 
-.price {
+td.price {
   padding-left: .75em;
   padding-right: .75em;
 }
 
 tr:nth-child( even ) {
   background-color: white;
+}
+
+#flights {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.flight {
+  display: flex;
+  border: 1px solid black;
+  flex-grow: 1;
+  justify-content: space-around;
+  align-items: center;
+  line-height: 2em;
+}
+
+.flightInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+div.price {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+div.airline {
+  font-weight: normal;
+}
+
+.flightNumber, .flightDuration {
+  font-size: .8em;
+  font-color: gray;
 }
