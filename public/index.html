@@ -10,13 +10,35 @@
 </head>
 <body>
   <h1>Flight Searcher</h1>
-  <div id="searchForm">
-    <form>
-      <input type="text" name="from" placeholder="From">
-      <input type="text" name="to" placeholder="To">
-      <input type="text" name='date' id="departureDate" placeholder="Departure Date">
-      <button type="submit">Search</button>
-    </form>
+  <form id="searchForm">
+    <input type="text" id="from" name="from" value="SFO" placeholder="From">
+    <input type="text" id="to" name="to" value="DTW" placeholder="To">
+    <input type="text" name='date' id="departureDate" value="2016-09-02" placeholder="Departure Date">
+    <button type="submit">Search</button>
+  </form>
+
+  <div id="searchResults">
+    <table id="priceMatrix">
+      <tr id="dates">
+      </tr>
+      <tr id="SU">
+        <td>Airoflot</td>
+        <td>234.3</td>
+        <td>234.3</td>
+        <td>234.3</td>
+        <td>234.3</td>
+        <td>234.3</td>
+      </tr>
+      <tr id="MH">
+        <td>China Southern</td>
+        <td>499.3</td>
+        <td>499.3</td>
+        <td>499.3</td>
+        <td>499.3</td>
+        <td>499.3</td>
+      </tr>
+    </table>
+    <div id="flights"></div>
   </div>
 </body>
 </html>
