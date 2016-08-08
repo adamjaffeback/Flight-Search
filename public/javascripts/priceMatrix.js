@@ -6,7 +6,7 @@ var addPrice = function( airlineCode, price ) {
 };
 
 var newAirlineRow = function( airlineName, airlineCode ) {
-  return $( '<tr></tr>', { id: airlineCode } ).append( '<td>' + airlineName + '</td>' );
+  $( '#priceMatrix' ).append( $( '<tr></tr>', { id: airlineCode } ) ).append( '<td>' + airlineName + '</td>' );
 };
 
 var addHeader = function( date ) {
@@ -39,15 +39,17 @@ exports.createDateHeaders = function() {
 };
 
 exports.createMatrix = function( flightOptions ) {
-  var currentAirlines;
+  var currentAirlines = { name: null };
 
-  // var numberOfFlightOptions = flightOptions.length;
-  // for ( var i = 0; i < numberOfFlightOptions; i++ ) {
-  //   var carrierFlightsForDay = flightOptions[ i ];
+  var numberOfFlightOptions = flightOptions.length;
+  for ( var i = 0; i < numberOfFlightOptions; i++ ) {
+    var carrierFlightsForDay = JSON.parse( flightOptions[ i ] );
 
-  //   if ( currentAirlines !== carrierFlightsForDay[ 0 ].airline.name ) {
+    if ( currentAirlines.name !== carrierFlightsForDay[ 0 ].airline.name ) {
+      currentAirlines = carrierFlightsForDay[ 0 ].airline;
+      // new airline
+      newAirlineRow( currentAirlines.name, currentAirlines.code );
+    }
 
-  //   }
-  //   console.log( JSON.parse( flightOptions[ i ] ) );
-  // }
+  }
 };
