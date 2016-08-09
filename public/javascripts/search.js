@@ -16,6 +16,11 @@ $( document ).ready(function() {
   // intercept submit
   $( "#searchForm" ).submit(function( event ) {
     event.preventDefault();
+    // reset results page
+    $( 'h3' ).hide();
+    $( '#priceMatrix' ).empty();
+    $( '#cheapestFlight' ).empty();
+    $( '#flights' ).empty();
     $( '#loading' ).toggle();
 
     // send search to server
@@ -29,7 +34,6 @@ $( document ).ready(function() {
         $( 'body' ).css( 'justify-content', 'flex-start' );
         // fade-in headers
         $( 'h3').toggle();
-
 
         priceMatrix.createDateHeaders();
         var allFlights = priceMatrix.createMatrix( data );
