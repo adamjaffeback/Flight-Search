@@ -67,24 +67,14 @@ fi
 
 echo
 echo "Installing dependencies."
+echo
 npm install
 echo
 
 echo
-echo "Bundling components."
-node -e "require('grunt').tasks(['build']);"
-killall node
+echo "Bundling components and launching."
 echo
-
-printf "Launching application and starting server"
-
-PYTHON_INSTALLED=$(program_is_installed python)
-
-if [ "$PYTHON_INSTALLED" == 0 ]; then
-  printf "Please open http://localhost:3000 in your favorite browser"
-  node ./bin/www
-else
-  node ./bin/www & python -mwebbrowser http://localhost:3000
-fi
+node -e "require('grunt').tasks(['default']);"
+echo
 
 exit
