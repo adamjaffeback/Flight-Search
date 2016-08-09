@@ -30,10 +30,8 @@ function echo_fail {
 # example
 # echo echo_fail "Yes"
 function echo_pass {
-  # echo first argument in green
-  printf "\e[32m✔ ${1}"
-  # reset colours back to normal
-  echo "\033[0m"
+  # echo first argument in green then reset colors to normal
+  printf "\e[32m✔ ${1} \033[0m"
 }
 
 # echo pass or fail
@@ -50,6 +48,7 @@ function echo_if {
 
 echo "Thanks for reviewing my code challenge!"
 echo "Checking if necessary dev environment exists..."
-
-echo "node          $(echo_if $(program_is_installed node))"
-echo "npm          $(echo_if $(program_is_installed npm))"
+echo
+echo "node $(echo_if $(program_is_installed node))"
+echo "npm $(echo_if $(program_is_installed npm))"
+echo
