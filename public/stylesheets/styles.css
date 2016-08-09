@@ -218,4 +218,92 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     border-bottom: none;
     cursor: help;
 }
+html {
+  height: 100%;
+  width: 100%;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background:  #7ec0ee; /* For browsers that do not support gradients */
+}
 
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80%;
+  width: 100%;
+}
+
+#loading {
+  margin-top: 2em;
+  display: none;
+}
+
+#searchForm {
+  display: flex;
+  min-height: 2em;
+}
+
+#searchResults {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.airline {
+  font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 1em;
+  flex-basis: 60%;
+}
+
+th, td {
+  text-align: center;
+  line-height: 2em;
+}
+
+td.price {
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+tr:nth-child( even ) {
+  background-color: white;
+}
+
+.flight {
+  display: flex;
+  border: 1px solid black;
+  flex-grow: 1;
+  justify-content: space-around;
+  align-items: center;
+  line-height: 2em;
+}
+
+.flightInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+span.price {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+span.airline {
+  font-weight: normal;
+}
+
+.flightNumber, .flightDuration {
+  font-size: .8em;
+  font-color: gray;
+}
+
+h3 {
+  display: none;
+}

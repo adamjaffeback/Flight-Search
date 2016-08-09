@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         },
-        tasks: [ 'browserify' ]
+        tasks: [ 'concat_css', 'browserify' ]
       }
     },
 
@@ -50,13 +50,26 @@ module.exports = function(grunt) {
         // Gets the port from the connect configuration
         path: 'http://localhost:<%= express.all.options.port%>'
       }
+    },
+
+    concat_css: {
+      all: {
+        src: [ 'node_modules/pikaday/css/pikaday.css', 'public/stylesheets/*.css', '!public/stylesheets/styles.css' ],
+        dest: 'public/stylesheets/styles.css'
+      }
     }
   });
 
   grunt.registerTask('default', [
     'browserify',
+    'concat_css',
     'express',
     'open',
     'watch'
+  ]);
+
+  grunt.registerTask('build', [
+    'browserify',
+    'concat_css'
   ]);
 };
