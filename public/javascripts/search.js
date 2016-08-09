@@ -39,6 +39,9 @@ $( document ).ready(function() {
         var allFlights = priceMatrix.createMatrix( data );
 
         flights.displayCheapestFlights( allFlights );
+      },
+      error: function() {
+        $( '#loading' ).toggle();
       }
     });
 

@@ -1,9 +1,24 @@
-var moment = require( 'moment' );
+var moment = require( 'moment-timezone' );
 var $ = require( 'jquery' );
 var flightHelper = require( './flights.js' );
 
+var addEmptyTd = function( airlineCode ) {
+  $( '#' + airlineCode ).append( '<td class="price">---</td>' );
+};
+
 var addPrice = function( airlineCode, price ) {
-  $( '#' + airlineCode ).append( '<td class="price">$' + price + '</td>' );
+  $( '#' + airlineCode ).append( '<td class="price">$' + price.toFixed( 0 )+ '</td>' );
+};
+
+var addPrices = function( airlineCode, prices ) {
+  for ( var i = 0; i < prices.length; i++ ) {
+    var price = prices[ i ];
+    if ( price === window.Infinity ) {
+      addEmptyTd( airlineCode );
+    } else {
+      addPrice( airlineCode, price );
+    }
+  }
 };
 
 var newAirlineRow = function( airlineName, airlineCode ) {
@@ -41,33 +56,48 @@ exports.createDateHeaders = function() {
 };
 
 exports.createMatrix = function( flightOptions ) {
-  var currentAirlines = { name: null };
+  var matrixData = {};
   var allFlights = [];
+
+  var dayZero = moment( $( '#departureDate' ).val(), 'YYYY-MM-DD' ).subtract( 2, 'days' );
+  dayZero.tz( JSON.parse( flightOptions[ 0 ] )[ 0 ].start.timeZone );
+  var currentAirline = { name: null };
 
   var numberOfFlightOptions = flightOptions.length;
   for ( var i = 0; i < numberOfFlightOptions; i++ ) {
     var carrierFlightsForDay = JSON.parse( flightOptions[ i ] );
 
-    if ( currentAirlines.name !== carrierFlightsForDay[ 0 ].airline.name ) {
-      currentAirlines = carrierFlightsForDay[ 0 ].airline;
+    if ( currentAirline.name !== carrierFlightsForDay[ 0 ].airline.name ) {
+      if ( Array.isArray( matrixData[ currentAirline.name ] ) ) {
+        addPrices( currentAirline.code, matrixData[ currentAirline.name ] );
+      }
+      currentAirline = carrierFlightsForDay[ 0 ].airline;
+      // instantiate cheapest flights
+      matrixData[ currentAirline.name ] = [ window.Infinity, window.Infinity, window.Infinity, window.Infinity, window.Infinity ];
       // new airline
-      newAirlineRow( currentAirlines.name, currentAirlines.code );
+      newAirlineRow( currentAirline.name, currentAirline.code );
     }
 
-    var cheapestFlight = { price: window.Infinity };
     var numberOfFlights = carrierFlightsForDay.length;
     for ( var j = 0; j < numberOfFlights; j++ ) {
       var flight = carrierFlightsForDay[ j ];
+      var departureTime = moment( flight.start.dateTime ).tz( flight.start.timeZone );
+      var index = departureTime.diff( dayZero, 'days' );
 
-      allFlights.push( flight );
+      if ( index >= 0 && index <= 4 ) {
+        allFlights.push( flight );
+      } else {
+        continue;
+      }
 
-      if ( flight.price < cheapestFlight.price ) {
-        cheapestFlight = flight;
+      if ( flight.price < matrixData[ flight.airline.name ][ index ] ) {
+        matrixData[ flight.airline.name ][ index ] = flight.price;
       }
     }
-
-    addPrice( currentAirlines.code, cheapestFlight.price.toFixed( 0 ) );
   };
+
+  // don't forget last airline
+  addPrices( currentAirline.code, matrixData[ currentAirline.name ] );
 
   return allFlights;
 };
