@@ -21,9 +21,7 @@ function program_is_installed {
 # echo echo_fail "No"
 function echo_fail {
   # echo first argument in red
-  printf "\e[31m✘ ${1}"
-  # reset colours back to normal
-  echo "\033[0m"
+  printf "\e[31m✘ ${1} \033[0m"
 }
 
 # display a message in green with a tick by it
@@ -46,9 +44,41 @@ function echo_if {
   fi
 }
 
+echo
 echo "Thanks for reviewing my code challenge!"
 echo "Checking if necessary dev environment exists..."
 echo
-echo "node $(echo_if $(program_is_installed node))"
-echo "npm $(echo_if $(program_is_installed npm))"
+
+NODE_INSTALLED=$(program_is_installed node)
+NPM_INSTALLED=$(program_is_installed npm)
+
+echo "node $(echo_if $NODE_INSTALLED)"
+echo "npm $(echo_if $NPM_INSTALLED)"
+
+if [ "$NODE_INSTALLED" == 0 ]; then
+  printf "\e[31mPlease install Node.js first."
+  exit
+fi
+
+if [ "$NPM_INSTALLED" == 0 ]; then
+  printf "\e[31mPlease install npm first. It's surprising you have Node.js installed, but not npm."
+  exit
+fi
+
 echo
+echo "Installing dependencies."
+npm install --production
+echo
+
+printf "Launching application and starting server"
+
+PYTHON_INSTALLED=$(program_is_installed python)
+
+if [ "$PYTHON_INSTALLED" == 0 ]; then
+  printf "Please open http://localhost:3000 in your favorite browser"
+  node ./bin/www
+else
+  node ./bin/www & python -mwebbrowser http://localhost:3000
+fi
+
+exit
