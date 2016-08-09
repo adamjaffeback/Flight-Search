@@ -42,6 +42,7 @@ exports.createDateHeaders = function() {
 
 exports.createMatrix = function( flightOptions ) {
   var currentAirlines = { name: null };
+  var allFlights = [];
 
   var numberOfFlightOptions = flightOptions.length;
   for ( var i = 0; i < numberOfFlightOptions; i++ ) {
@@ -57,13 +58,16 @@ exports.createMatrix = function( flightOptions ) {
     var numberOfFlights = carrierFlightsForDay.length;
     for ( var j = 0; j < numberOfFlights; j++ ) {
       var flight = carrierFlightsForDay[ j ];
+
+      allFlights.push( flight );
+
       if ( flight.price < cheapestFlight.price ) {
         cheapestFlight = flight;
       }
-
-      flightHelper.addFlight( '#flights', flight );
     }
 
     addPrice( currentAirlines.code, cheapestFlight.price.toFixed( 0 ) );
   };
+
+  return allFlights;
 };

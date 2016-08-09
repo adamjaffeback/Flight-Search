@@ -3,7 +3,7 @@ var Pikaday = require( 'pikaday' );
 var moment = require( 'moment' );
 moment().format( 'YYYY-MM-DD' );
 var priceMatrix = require( './priceMatrix.js' );
-
+var flights = require( './flights.js' );
 
 $( document ).ready(function() {
   var options = {
@@ -17,16 +17,20 @@ $( document ).ready(function() {
   $( "#searchForm" ).submit(function( event ) {
     event.preventDefault();
 
+    // send search to server
     $.ajax({
       url: 'search?' + $( '#searchForm' ).serialize(),
       type: 'get',
       dataType: 'json',
       success: function( data ) {
         priceMatrix.createDateHeaders();
-        priceMatrix.createMatrix( data );
+        var allFlights = priceMatrix.createMatrix( data );
+
+        flights.displayCheapestFlights( allFlights );
       }
     });
 
+    // slide search info up
     $( 'body' ).css( 'justify-content', 'flex-start' );
 
   });
