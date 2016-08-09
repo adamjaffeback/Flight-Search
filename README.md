@@ -32,3 +32,4 @@ After cloning and `cd Flight-Search`.
 - [ ] Improving styling and account for edge cases in city suggestions. Sometimes, the input box is not large enough, sometimes locations do not have states.
 - [ ] Shim jquery-ui and accompanying css into browserify.
 - [ ] Find ways to optimize. Best case solution is currently quadratic time complexity.
+- [ ] Add better error handling for the form and server responses
