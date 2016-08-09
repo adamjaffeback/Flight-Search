@@ -18,6 +18,4 @@ A simple fullstack web application which accesses an outside API to search for f
   - Launches page on localhost:3000
 
 ## Todo's
-
-- [ ] Currently, the input form only takes airport codes. It would be best to allow users to type cities and suggest airport codes (using the /airports endpoint).
 - [ ] Make price matrix clickable. Clickable dates shows only flights for that date. Clickable airlines shows only that airlines. Generally sortable flights rather than just guessing that user wants the cheapest flight.
