@@ -17,6 +17,16 @@ A simple fullstack web application which accesses an outside API to search for f
   - Starts server
   - Launches page on localhost:3000
 
+#### Manual Run
+
+After cloning and `cd Flight-Search`.
+
+1. `npm install`
+1. `npm install -g grunt-cli`.
+1. `grunt build`
+1. `npm start` (starts server)
+1. Open browser to [http://localhost:3000/](http://localhost:3000/)
+
 ## Todo's
 - [ ] Make price matrix clickable. Clickable dates shows only flights for that date. Clickable airlines shows only that airlines. Generally sortable flights rather than just guessing that user wants the cheapest flight.
 - [ ] Improving styling and account for edge cases in city suggestions. Sometimes, the input box is not large enough, sometimes locations do not have states.
