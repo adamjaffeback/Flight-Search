@@ -72,9 +72,21 @@ npm install
 echo
 
 echo
-echo "Bundling components and launching."
+echo "Bundling components."
 echo
-node -e "require('grunt').tasks(['default']);"
+node -e "require('grunt').tasks(['browserify','concat_css']);"
+killall node
 echo
+
+printf "Launching application and starting server.}"
+
+PYTHON_INSTALLED=$(program_is_installed python)
+
+if [ "$PYTHON_INSTALLED" == 0 ]; then
+  printf "Please open http://localhost:3000 in your favorite browser"
+  node ./bin/www
+else
+  node ./bin/www & python -mwebbrowser http://localhost:3000
+fi
 
 exit
