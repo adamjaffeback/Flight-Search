@@ -3,10 +3,6 @@ html {
   width: 100%;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background:  #7ec0ee; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient( #7ec0ee, white ); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient( #7ec0ee, white ); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient( #7ec0ee, white ); /* For Firefox 3.6 to 15 */
-  background: linear-gradient( #7ec0ee, white ); /* Standard syntax */
 }
 
 body {
@@ -18,8 +14,14 @@ body {
   width: 100%;
 }
 
+#loading {
+  margin-top: 2em;
+  display: none;
+}
+
 #searchForm {
   display: flex;
+  height: 5em;
 }
 
 #searchResults {
@@ -80,4 +82,8 @@ span.airline {
 .flightNumber, .flightDuration {
   font-size: .8em;
   font-color: gray;
+}
+
+h3 {
+  display: none;
 }

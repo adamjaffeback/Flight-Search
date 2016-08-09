@@ -16,6 +16,7 @@ $( document ).ready(function() {
   // intercept submit
   $( "#searchForm" ).submit(function( event ) {
     event.preventDefault();
+    $( '#loading' ).toggle();
 
     // send search to server
     $.ajax({
@@ -23,15 +24,19 @@ $( document ).ready(function() {
       type: 'get',
       dataType: 'json',
       success: function( data ) {
+        $( '#loading' ).toggle();
+        // slide search info up
+        $( 'body' ).css( 'justify-content', 'flex-start' );
+        // fade-in headers
+        $( 'h3').toggle();
+
+
         priceMatrix.createDateHeaders();
         var allFlights = priceMatrix.createMatrix( data );
 
         flights.displayCheapestFlights( allFlights );
       }
     });
-
-    // slide search info up
-    $( 'body' ).css( 'justify-content', 'flex-start' );
 
   });
 });
