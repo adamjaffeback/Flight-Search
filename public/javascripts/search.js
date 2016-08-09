@@ -5,6 +5,7 @@ moment().format( 'YYYY-MM-DD' );
 var priceMatrix = require( './priceMatrix.js' );
 var flights = require( './flights.js' );
 
+// handle form submission and subsequent dataType
 $( document ).ready(function() {
   var options = {
     field: $( '#departureDate' )[ 0 ],
@@ -16,12 +17,14 @@ $( document ).ready(function() {
   // intercept submit
   $( "#searchForm" ).submit(function( event ) {
     event.preventDefault();
-    // reset results page
-    $( 'h3' ).hide();
-    $( '#priceMatrix' ).empty();
-    $( '#cheapestFlight' ).empty();
-    $( '#flights' ).empty();
-    $( '#loading' ).toggle();
+    $( '#loading' ).show();
+    $( 'button' ).prop( 'disabled', true );
+
+    var from = $( '#from' ).val();
+    $( '#from' ).val( from.toUpperCase() );
+    var to = $( '#to' ).val();
+    $( '#to' ).val( to.toUpperCase() );
+
 
     // send search to server
     $.ajax({
@@ -29,11 +32,14 @@ $( document ).ready(function() {
       type: 'get',
       dataType: 'json',
       success: function( data ) {
-        $( '#loading' ).toggle();
+         // reset results page
+        $( 'h3' ).show();
+        $( '#priceMatrix' ).empty();
+        $( '#cheapestFlight' ).empty();
+        $( '#flights' ).empty();
+
         // slide search info up
         $( 'body' ).css( 'justify-content', 'flex-start' );
-        // fade-in headers
-        $( 'h3').toggle();
 
         priceMatrix.createDateHeaders();
         var allFlights = priceMatrix.createMatrix( data );
@@ -41,7 +47,11 @@ $( document ).ready(function() {
         flights.displayCheapestFlights( allFlights );
       },
       error: function() {
-        $( '#loading' ).toggle();
+        $( '#loading' ).hide();
+      },
+      complete: function() {
+        $( 'button' ).prop( 'disabled', false );
+        $( '#loading' ).hide();
       }
     });
 
