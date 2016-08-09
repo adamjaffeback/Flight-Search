@@ -67,7 +67,13 @@ fi
 
 echo
 echo "Installing dependencies."
-npm install --production
+npm install
+echo
+
+echo
+echo "Bundling components."
+node -e "require('grunt').tasks(['build']);"
+killall node
 echo
 
 printf "Launching application and starting server"
