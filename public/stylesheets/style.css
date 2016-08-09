@@ -21,7 +21,7 @@ body {
 
 #searchForm {
   display: flex;
-  height: 5em;
+  min-height: 2em;
 }
 
 #searchResults {
