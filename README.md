@@ -19,3 +19,6 @@ A simple fullstack web application which accesses an outside API to search for f
 
 ## Todo's
 - [ ] Make price matrix clickable. Clickable dates shows only flights for that date. Clickable airlines shows only that airlines. Generally sortable flights rather than just guessing that user wants the cheapest flight.
+- [ ] Improving styling and account for edge cases in city suggestions. Sometimes, the input box is not large enough, sometimes locations do not have states.
+- [ ] Shim jquery-ui and accompanying css into browserify.
+- [ ] Find ways to optimize. Best case solution is currently quadratic time complexity.
